@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Backend сервис на Python - ИМЯ СЕРВИСА: backend
+  backend:
+    build: ./backend
+    container_name: python-backend
+    expose:
+      - "8080"
+    networks:
+      - internal-network
+
+  # Reverse proxy на Nginx
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - backend  # Здесь имя должно совпадать с именем сервиса выше
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
+    driver: bridge
