@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Backend сервис на Python - ИМЯ СЕРВИСА: backend
   backend:
     build: ./backend
     container_name: python-backend
@@ -10,7 +9,6 @@ services:
     networks:
       - internal-network
 
-  # Reverse proxy на Nginx
   nginx:
     image: nginx:latest
     container_name: nginx-proxy
@@ -19,7 +17,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend  # Здесь имя должно совпадать с именем сервиса выше
+      - backend
     networks:
       - internal-network
 
